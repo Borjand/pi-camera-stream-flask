@@ -19,6 +19,7 @@ The Pi streams the output of the camera module over the web via Flask. Devices c
 * Raspberry Pi 4, 2GB is recommended for optimal performance. However you can use a Pi 3 or older, you may see a increase in latency.
 * Raspberry Pi 4 Camera Module or Pi HQ Camera Module (Newer version)
 * Python 3 recommended.
+* Raspbian Buster 32 bits (full Desktop version) as Operating System
 
 ## Library dependencies
 Install the following dependencies to create camera stream.
@@ -35,9 +36,9 @@ sudo apt-get install libhdf5-dev
 
 sudo pip3 install flask
 sudo pip3 install numpy
-sudo pip3 install opencv-contrib-python
+sudo pip3 install opencv-contrib-python==4.5.4.60
 sudo pip3 install imutils
-sudo pip3 install opencv-python
+sudo pip3 install opencv-python==4.5.4.60
 
 ```
 
@@ -66,23 +67,51 @@ sudo python3 /home/pi/pi-camera-stream-flask/main.py
 
 ## Step 3 – Autostart your Pi Stream
 
-Optional: A good idea is to make the the camera stream auto start at bootup of your pi. You will now not need to re-run the script every time you want to create the stream. You can do this by going editing the /etc/profile to:
+Optional: A good idea is to make the the camera stream auto start at bootup of your pi using a systemd Linux service. You will now not need to re-run the script every time you want to create the stream. You can do this by going editing the /etc/profile to:
 
 ```
-sudo nano /etc/profile
+sudo nano /etc/systemd/system/pi-camera-stream-flask.service
 ```
 
-Go the end of the and add the following (from above):
+Add the following:
 
 ```
-sudo python3 /home/pi/pi-camera-stream-flask/main.py
+[Unit]
+Description=Pi Camera Stream Flask Service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/pi/pi-camera-stream-flask/main.py
+WorkingDirectory=/home/pi/pi-camera-stream-flask
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
+```
+
+After this, reload **systemd** to led it to detect the new service, and enable the service to be started at bootup
+
+```
+sudo systemctl daemon-reload
+sudo systemctl enable pi-camera-stream-flask.service
+```
+
+Finally, you can immediately verify the functioning of the service with the following commands:
+
+```
+sudo systemctl start pi-camera-stream-flask.service
+sudo systemctl status pi-camera-stream-flask.service
 ```
 
 This would cause the following terminal command to auto-start each time the Raspberry Pi boots up. This in effect creates a headless setup - which would be accessed via SSH.
 Note: make sure SSH is enabled.
 
-## More Projects / Next Steps
-View the latest Build: [Pi Smart Cam with Motion Sensor](https://github.com/EbenKouao/pi-smart-cam)
+## More Projects:
 
-Alternatively, view more projects that build on the Pi Camera on [smartbuilds.io](https://smartbuilds.io).
+This project is a slightly customized version of the Pi Camera project build on [smartbuilds.io](https://smartbuilds.io).
+
+As an additional resource, you can find an illustrative video of how the assembly and the installation is done in [YouTube](https://www.youtube.com/watch?v=zfBHD4v8hD0&t=636s).
 
