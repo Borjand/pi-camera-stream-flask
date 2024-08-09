@@ -55,7 +55,7 @@ Open up terminal and clone the Camera Stream repo:
 
 ```
 cd /home/pi
-git clone https://github.com/EbenKouao/pi-camera-stream-flask.git
+git clone https://github.com/Borjand/pi-camera-stream-flask.git
 ```
 
 ## Step 2 – Launch Web Stream
