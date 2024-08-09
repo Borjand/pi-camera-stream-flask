@@ -35,7 +35,7 @@ sudo apt-get install libqt4-test
 sudo apt-get install libhdf5-dev
 
 sudo pip3 install flask
-sudo pip3 install numpy
+sudo pip3 install numpy==1.21.6
 sudo pip3 install opencv-contrib-python==4.5.4.60
 sudo pip3 install imutils
 sudo pip3 install opencv-python==4.5.4.60
