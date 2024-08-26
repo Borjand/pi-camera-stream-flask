@@ -9,6 +9,12 @@ The Pi streams the output of the camera module over the web via Flask. Devices c
 <raspberry_pi_ip:5000>
 ```
 
+Since raspbian includes the avahi-daemon linux artifacts, it is also possible to connect using the hostname of the raspberry pi (which can be modified as preferred to make the connection easier):
+
+```
+http://raspberrypi.local:5000
+```
+
 ## Screenshots
 | ![Setup](readme/pi-stream-client.jpg) | ![Live Pi Camera Stream](readme/pi-stream-screen-capture.jpg) |
 | ------------------------------------- | ------------------------------------------------------------- |
